@@ -5,7 +5,7 @@ import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
-import { Addchart, Bed, Search } from "@mui/icons-material";
+import { Hotel, Addchart, Bed, Search } from "@mui/icons-material";
 import Link from "@mui/material/Link";
 
 export default function HomePage() {
@@ -15,8 +15,12 @@ export default function HomePage() {
         sx={{
           pt: 8,
           pb: 6,
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
         }}
       >
+        <Hotel sx={{ fontSize: 100 }} />
         <Typography
           component="h1"
           variant="h2"
@@ -59,20 +63,22 @@ export default function HomePage() {
       <Box sx={{ pt: 4, pb: 4 }}>
         <Stack
           sx={{ pt: 4 }}
-          direction="row"
+          direction={{ xs: "column", sm: "row" }}
           justifyContent="center"
           spacing={3}
         >
           <Card
             sx={{
-              minWidth: 275,
+              minWidth: 200,
+              display: "flex",
+              justifyContent: "space-evenly",
             }}
           >
             <CardContent
               sx={{
                 display: "flex",
                 flexDirection: "column",
-                justifyContent: "center",
+                justifyContent: "space-evenly",
                 alignItems: "center",
               }}
             >
@@ -84,14 +90,16 @@ export default function HomePage() {
           </Card>
           <Card
             sx={{
-              minWidth: 275,
+              minWidth: 200,
+              display: "flex",
+              justifyContent: "space-evenly",
             }}
           >
             <CardContent
               sx={{
                 display: "flex",
                 flexDirection: "column",
-                justifyContent: "center",
+                justifyContent: "space-evenly",
                 alignItems: "center",
               }}
             >
@@ -103,14 +111,16 @@ export default function HomePage() {
           </Card>
           <Card
             sx={{
-              minWidth: 275,
+              minWidth: 200,
+              display: "flex",
+              justifyContent: "space-evenly",
             }}
           >
             <CardContent
               sx={{
                 display: "flex",
                 flexDirection: "column",
-                justifyContent: "center",
+                justifyContent: "space-evenly",
                 alignItems: "center",
               }}
             >
