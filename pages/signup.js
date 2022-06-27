@@ -8,8 +8,11 @@ import Box from "@mui/material/Box";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
+import { withPublic } from "../src/hooks/route";
 
-function SignupPage() {
+function SignupPage({ auth }) {
+  const { user, loginWithGoogle, error } = auth;
+
   const handleSubmit = (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
@@ -102,4 +105,4 @@ function SignupPage() {
   );
 }
 
-export default SignupPage;
+export default withPublic(SignupPage);
