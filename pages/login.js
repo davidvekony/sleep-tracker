@@ -10,18 +10,24 @@ import Box from "@mui/material/Box";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
-import { withPublic } from "../src/hooks/route";
+import { useAuth } from "../src/context/AuthContext";
+import { useRouter } from "next/router";
 
-function LoginPage({ auth }) {
-  const { user, loginWithGoogle, error } = auth;
+function LoginPage() {
+  const { user, login, loginWithGoogle } = useAuth();
 
-  const handleSubmit = (event) => {
+  const router = useRouter();
+
+  const handleSubmit = async (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
-    console.log({
-      email: data.get("email"),
-      password: data.get("password"),
-    });
+
+    try {
+      await login(data.get("email"), data.get("password"));
+      router.push("/dashboard");
+    } catch (error) {
+      toast.error(error);
+    }
   };
 
   return (
@@ -92,4 +98,4 @@ function LoginPage({ auth }) {
   );
 }
 
-export default withPublic(LoginPage);
+export default LoginPage;

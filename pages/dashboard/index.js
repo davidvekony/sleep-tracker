@@ -1,8 +1,8 @@
-import { withProtected } from "../../src/hooks/route";
+import { useAuth } from "../../src/context/AuthContext";
 import Button from "@mui/material/Button";
 
-function DashboardPage({ auth }) {
-  const { logout } = auth;
+function DashboardPage() {
+  const { user, logout } = useAuth();
 
   return (
     <div>
@@ -11,4 +11,4 @@ function DashboardPage({ auth }) {
   );
 }
 
-export default withProtected(DashboardPage);
+export default DashboardPage;

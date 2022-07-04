@@ -1,20 +1,25 @@
 import * as React from "react";
 import PropTypes from "prop-types";
 import Head from "next/head";
+import createEmotionCache from "../src/createEmotionCache";
+import { CacheProvider } from "@emotion/react";
 import { ThemeProvider } from "@mui/material/styles";
 import CssBaseline from "@mui/material/CssBaseline";
-import { CacheProvider } from "@emotion/react";
 import theme from "../src/theme";
-import createEmotionCache from "../src/createEmotionCache";
-import "../firebase.config";
-import { AuthProvider } from "../src/hooks/auth";
-import AuthStateChanged from "../src/layout/AuthStateChanged";
+import { AuthContextProvider } from "../src/context/AuthContext";
+import ProtectedRoute from "../src/components/ProtectedRoute";
+import { useRouter } from "next/router";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 // Client-side cache, shared for the whole session of the user in the browser.
 const clientSideEmotionCache = createEmotionCache();
 
+const noAuthRequired = ["/", "/login", "/signup"];
+
 export default function MyApp(props) {
   const { Component, emotionCache = clientSideEmotionCache, pageProps } = props;
+  const router = useRouter();
 
   return (
     <CacheProvider value={emotionCache}>
@@ -24,13 +29,17 @@ export default function MyApp(props) {
         <meta name="viewport" content="initial-scale=1, width=device-width" />
       </Head>
       <ThemeProvider theme={theme}>
-        {/* CssBaseline kickstart an elegant, consistent, and simple baseline to build upon. */}
         <CssBaseline />
-        <AuthProvider>
-          <AuthStateChanged>
+        <AuthContextProvider>
+          <ToastContainer />
+          {noAuthRequired.includes(router.pathname) ? (
             <Component {...pageProps} />
-          </AuthStateChanged>
-        </AuthProvider>
+          ) : (
+            <ProtectedRoute>
+              <Component {...pageProps} />
+            </ProtectedRoute>
+          )}
+        </AuthContextProvider>
       </ThemeProvider>
     </CacheProvider>
   );
