@@ -7,8 +7,11 @@ import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import { Hotel, Addchart, Bed, Search } from "@mui/icons-material";
 import Link from "@mui/material/Link";
+import { useAuth } from "../src/context/AuthContext";
 
 export default function HomePage() {
+  const { user } = useAuth();
+
   return (
     <Container maxWidth="sm">
       <Box
@@ -40,25 +43,33 @@ export default function HomePage() {
           habits, etc. Make it short and sweet, but not too short so folks
           don&apos;t simply skip over it entirely.
         </Typography>
-        <Stack
-          sx={{ pt: 4 }}
-          direction="row"
-          spacing={2}
-          justifyContent="center"
-        >
+        {user ? (
           <Button variant="contained">
-            <Link href="/signup" color="inherit" underline="none">
-              Sign up
+            <Link href="/dashboard" color="inherit" underline="none">
+              Go to Dashboard
             </Link>
           </Button>
-          <Button variant="outlined">
-            {" "}
-            <Link href="/login" color="inherit" underline="none">
+        ) : (
+          <Stack
+            sx={{ pt: 4 }}
+            direction="row"
+            spacing={2}
+            justifyContent="center"
+          >
+            <Button variant="contained">
+              <Link href="/signup" color="inherit" underline="none">
+                Sign up
+              </Link>
+            </Button>
+            <Button variant="outlined">
               {" "}
-              Log in{" "}
-            </Link>{" "}
-          </Button>
-        </Stack>
+              <Link href="/login" color="inherit" underline="none">
+                {" "}
+                Log in{" "}
+              </Link>{" "}
+            </Button>
+          </Stack>
+        )}
       </Box>
       <Box sx={{ pt: 4, pb: 4 }}>
         <Stack

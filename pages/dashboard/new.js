@@ -1,5 +1,119 @@
+import { useState } from "react";
+import { useRouter } from "next/router";
+import Link from "@mui/material/Link";
+import Container from "@mui/material/Container";
+import Box from "@mui/material/Box";
+import Stack from "@mui/material/Stack";
+import TextField from "@mui/material/TextField";
+import Button from "@mui/material/Button";
+import LoadingButton from "@mui/lab/LoadingButton";
+import Breadcrumbs from "@mui/material/Breadcrumbs";
+import Typography from "@mui/material/Typography";
+import { DateTimePicker } from "@mui/x-date-pickers/DateTimePicker";
+import { toast } from "react-toastify";
+import { collection, addDoc, Timestamp } from "firebase/firestore";
+
+import { db } from "../../config/firebase.config";
+import { useAuth } from "../../src/context/AuthContext";
+
 function LogSleepPage() {
-  return <div>LogSleepPage</div>;
+  const { user } = useAuth();
+  const router = useRouter();
+
+  const [sleepTime, setSleepTime] = useState(null);
+  const [wakeUpTime, setWakeUpTime] = useState(null);
+  const [loading, setLoading] = useState(false);
+
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+    setLoading(true);
+    try {
+      const docRef = await addDoc(collection(db, "sleep"), {
+        // date: date.toISOString().slice(0, 10),
+        sleepTime: Timestamp.fromDate(sleepTime),
+        wakeUpTime: Timestamp.fromDate(wakeUpTime),
+        sleepDuration: Math.abs(wakeUpTime - sleepTime) / 36e5,
+        user: user.uid,
+        timestamp: Timestamp.fromDate(new Date()),
+      });
+      setLoading(false);
+      console.log("Document written with ID: ", docRef.id);
+      router.push("/dashboard");
+    } catch (error) {
+      toast.error(error);
+    }
+  };
+
+  return (
+    <>
+      <Box
+        sx={{
+          pl: 3,
+          pt: 2,
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "left",
+        }}
+      >
+        <Breadcrumbs aria-label="breadcrumb">
+          <Link underline="hover" color="inherit" href="/">
+            Home
+          </Link>
+          <Link underline="hover" color="inherit" href="/dashboard">
+            Dashboard
+          </Link>
+          <Typography color="text.primary">New Log</Typography>
+        </Breadcrumbs>
+      </Box>
+      <Container maxWidth="sm">
+        <Box
+          sx={{
+            pt: 8,
+            pb: 6,
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+          }}
+        >
+          <Stack spacing={3}>
+            <Typography variant="h2">Log Your Sleep</Typography>
+            <DateTimePicker
+              label="Sleep time"
+              name="sleepTime"
+              value={sleepTime}
+              ampm={false}
+              disableFuture={true}
+              onChange={(newSleepTime) => {
+                setSleepTime(newSleepTime);
+                console.log(newSleepTime);
+              }}
+              renderInput={(props) => <TextField {...props} />}
+            />
+            <DateTimePicker
+              label="Wake-up time"
+              name="wakeUpTime"
+              value={wakeUpTime}
+              ampm={false}
+              disableFuture={true}
+              onChange={(newWakeUpTime) => setWakeUpTime(newWakeUpTime)}
+              renderInput={(props) => <TextField {...props} />}
+            />
+            {loading ? (
+              <LoadingButton loading variant="outlined" />
+            ) : (
+              <Button
+                variant="contained"
+                disabled={(!sleepTime || !wakeUpTime) && true}
+                onClick={handleSubmit}
+              >
+                Submit
+              </Button>
+            )}
+          </Stack>
+        </Box>
+      </Container>
+    </>
+  );
 }
 
 export default LogSleepPage;
