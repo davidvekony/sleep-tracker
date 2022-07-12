@@ -5,6 +5,7 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
+import { v4 as uuidv4 } from "uuid";
 
 function SleepStats({ sleepData }) {
   return (
@@ -21,7 +22,7 @@ function SleepStats({ sleepData }) {
         <TableBody>
           {sleepData.map((sleep) => (
             <TableRow
-              key={sleep.id}
+              key={uuidv4()}
               sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
             >
               <TableCell component="th" scope="row">
