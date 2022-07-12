@@ -9,8 +9,11 @@ import theme from "../src/theme";
 import { AuthContextProvider } from "../src/context/AuthContext";
 import ProtectedRoute from "../src/components/ProtectedRoute";
 import { useRouter } from "next/router";
+import Navbar from "../src/components/Navbar";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { LocalizationProvider } from "@mui/x-date-pickers";
+import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
 
 // Client-side cache, shared for the whole session of the user in the browser.
 const clientSideEmotionCache = createEmotionCache();
@@ -31,14 +34,17 @@ export default function MyApp(props) {
       <ThemeProvider theme={theme}>
         <CssBaseline />
         <AuthContextProvider>
-          <ToastContainer />
-          {noAuthRequired.includes(router.pathname) ? (
-            <Component {...pageProps} />
-          ) : (
-            <ProtectedRoute>
+          <LocalizationProvider dateAdapter={AdapterDateFns}>
+            <ToastContainer />
+            <Navbar />
+            {noAuthRequired.includes(router.pathname) ? (
               <Component {...pageProps} />
-            </ProtectedRoute>
-          )}
+            ) : (
+              <ProtectedRoute>
+                <Component {...pageProps} />
+              </ProtectedRoute>
+            )}
+          </LocalizationProvider>
         </AuthContextProvider>
       </ThemeProvider>
     </CacheProvider>
