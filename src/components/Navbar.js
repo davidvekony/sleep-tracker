@@ -3,7 +3,7 @@ import Box from "@mui/material/Box";
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
-import Link from "@mui/material/Link";
+import { Hotel } from "@mui/icons-material";
 import { useAuth } from "../context/AuthContext";
 import { useRouter } from "next/router";
 
@@ -15,12 +15,13 @@ function Navbar() {
     <Box sx={{ flexGrow: 1 }}>
       <AppBar position="static">
         <Toolbar>
+          <Hotel sx={{ mr: 2 }} />
           <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
             Sleep Tracker
           </Typography>
           {user ? (
             <Button
-              color="inherit"
+              variant="outlined"
               onClick={() => {
                 logout();
                 router.push("/login");
@@ -30,12 +31,23 @@ function Navbar() {
             </Button>
           ) : (
             <>
-              <Link href="/login">
-                <Button color="inherit">Log in</Button>
-              </Link>
-              <Link href="/signup">
-                <Button color="inherit">Sign up</Button>
-              </Link>
+              <Button
+                variant="outlined"
+                onClick={() => {
+                  router.push("/login");
+                }}
+              >
+                Login
+              </Button>
+              <Button
+                variant="contained"
+                onClick={() => {
+                  router.push("/signup");
+                }}
+                sx={{ ml: 2 }}
+              >
+                Sign up
+              </Button>
             </>
           )}
         </Toolbar>

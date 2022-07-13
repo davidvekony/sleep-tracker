@@ -9,6 +9,7 @@ import {
   Legend,
 } from "chart.js";
 import { Line } from "react-chartjs-2";
+import Typography from "@mui/material/Typography";
 
 export const options = {
   responsive: true,
@@ -54,7 +55,11 @@ ChartJS.register(
 
 const Chart = ({ sleepData }) => {
   if (!sleepData || sleepData.length <= 0) {
-    return <p>There is no data to display.</p>;
+    return (
+      <Typography variant="h6" gutterBottom component="div">
+        There is no data to display.
+      </Typography>
+    );
   }
 
   const labels = [

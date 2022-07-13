@@ -1,9 +1,8 @@
+import { useState } from "react";
 import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 import CssBaseline from "@mui/material/CssBaseline";
 import TextField from "@mui/material/TextField";
-// import FormControlLabel from "@mui/material/FormControlLabel";
-// import Checkbox from "@mui/material/Checkbox";
 import Link from "@mui/material/Link";
 import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
@@ -17,6 +16,9 @@ import { toast } from "react-toastify";
 
 function LoginPage() {
   const { user, login, loginWithGoogle } = useAuth();
+
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
 
   const router = useRouter();
 
@@ -79,6 +81,10 @@ function LoginPage() {
               id="email"
               label="Email Address"
               name="email"
+              value={email}
+              onChange={(newEmail) => {
+                setEmail(newEmail);
+              }}
               autoComplete="email"
               autoFocus
             />
@@ -87,29 +93,25 @@ function LoginPage() {
               required
               fullWidth
               name="password"
+              value={password}
               label="Password"
               type="password"
               id="password"
+              onChange={(newPassword) => {
+                setPassword(newPassword);
+              }}
               autoComplete="current-password"
             />
-            {/* <FormControlLabel
-            control={<Checkbox value="remember" color="primary" />}
-            label="Remember me"
-          /> */}
             <Button
               type="submit"
               fullWidth
               variant="contained"
+              disabled={(!email || !password) && true}
               sx={{ mt: 3, mb: 2 }}
             >
               Sign In
             </Button>
             <Grid container>
-              {/* <Grid item xs>
-              <Link href="#" variant="body2">
-                Forgot password?
-              </Link>
-            </Grid> */}
               <Grid item container justifyContent="flex-end">
                 <Link href="/signup" variant="body2">
                   {"Don't have an account? Sign Up"}

@@ -8,6 +8,10 @@ import Paper from "@mui/material/Paper";
 import { v4 as uuidv4 } from "uuid";
 
 function SleepStats({ sleepData }) {
+  if (!sleepData || sleepData.length <= 0) {
+    return <></>;
+  }
+
   return (
     <TableContainer component={Paper}>
       <Table sx={{ minWidth: 650 }} size="small" aria-label="a dense table">

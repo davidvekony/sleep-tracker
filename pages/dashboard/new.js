@@ -85,7 +85,6 @@ function LogSleepPage() {
               disableFuture={true}
               onChange={(newSleepTime) => {
                 setSleepTime(newSleepTime);
-                console.log(newSleepTime);
               }}
               renderInput={(props) => <TextField {...props} />}
             />
