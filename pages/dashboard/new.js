@@ -11,9 +11,7 @@ import Breadcrumbs from "@mui/material/Breadcrumbs";
 import Typography from "@mui/material/Typography";
 import { DateTimePicker } from "@mui/x-date-pickers/DateTimePicker";
 import { toast } from "react-toastify";
-import { collection, addDoc, Timestamp } from "firebase/firestore";
 
-import { db } from "../../config/firebase.config";
 import { useAuth } from "../../src/context/AuthContext";
 import { addSleepData } from "../../src/utils/useSleepData";
 
@@ -32,7 +30,6 @@ function LogSleepPage() {
     addSleepData(sleepTime, wakeUpTime, user)
       .then((docRef) => {
         setLoading(false);
-        console.log("Document written with ID: ", docRef.id);
         router.push("/dashboard");
       })
       .catch((error) => {

@@ -6,9 +6,11 @@ import {
   collection,
   where,
   orderBy,
+  deleteDoc,
+  updateDoc,
 } from "firebase/firestore";
 
-export const fetchSleepData = async (user) => {
+const fetchSleepData = async (user) => {
   const data = [];
   const q = query(
     collection(db, "sleep"),
@@ -26,7 +28,7 @@ export const fetchSleepData = async (user) => {
   return data;
 };
 
-export const filterSleepData = (sleepData, daysBack) => {
+const filterSleepData = (sleepData, daysBack) => {
   const data = [];
   const today = new Date();
   const startDate = new Date(today.getTime() - daysBack * 24 * 60 * 60 * 1000);
@@ -38,13 +40,34 @@ export const filterSleepData = (sleepData, daysBack) => {
   return data;
 };
 
-export const addSleepData = async (sleepTime, wakeUpTime, user) => {
-  const docRef = await addDoc(collection(db, "sleep"), {
+const addSleepData = async (sleepTime, wakeUpTime, user) => {
+  await addDoc(collection(db, "sleep"), {
     sleepTime: Timestamp.fromDate(sleepTime),
     wakeUpTime: Timestamp.fromDate(wakeUpTime),
     sleepDuration: Math.abs(wakeUpTime - sleepTime) / 36e5,
     user: user.uid,
     timestamp: Timestamp.fromDate(new Date()),
   });
-  return docRef;
+};
+
+const deleteSleepData = async (sleepId) => {
+  await deleteDoc(doc(db, "sleep", sleepId));
+};
+
+const updateSleepData = async (sleepId, sleepTime, wakeUpTime) => {
+  const docRef = doc(db, "cities", sleepId);
+
+  await updateDoc(docRef, {
+    sleepTime: Timestamp.fromDate(sleepTime),
+    wakeUpTime: Timestamp.fromDate(wakeUpTime),
+    sleepDuration: Math.abs(wakeUpTime - sleepTime) / 36e5,
+  });
+};
+
+export {
+  fetchSleepData,
+  filterSleepData,
+  addSleepData,
+  deleteSleepData,
+  updateSleepData,
 };
