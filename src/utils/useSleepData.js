@@ -18,3 +18,15 @@ export const fetchSleepData = async (user) => {
   });
   return data;
 };
+
+export const filterSleepData = (sleepData, daysBack) => {
+  const data = [];
+  const today = new Date();
+  const startDate = new Date(today.getTime() - daysBack * 24 * 60 * 60 * 1000);
+  sleepData.forEach((sleep) => {
+    if (sleep.sleepTime >= startDate) {
+      data.push(sleep);
+    }
+  });
+  return data;
+};

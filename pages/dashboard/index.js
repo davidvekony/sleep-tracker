@@ -11,6 +11,7 @@ import { useAuth } from "../../src/context/AuthContext";
 import { fetchSleepData } from "../../src/utils/useSleepData";
 import { toast } from "react-toastify";
 
+import DayToggle from "../../src/components/DayToggle";
 import SleepChart from "../../src/components/SleepChart";
 import SleepStats from "../../src/components/SleepStats";
 
@@ -63,11 +64,11 @@ function DashboardPage() {
             <CircularProgress />
           ) : (
             <Stack spacing={3} sx={{ width: "100%", alignItems: "center" }}>
+              <SleepChart sleepData={sleepData} />
+              <SleepStats sleepData={sleepData} />
               <Link href="/dashboard/new">
                 <Button variant="contained">Log sleep</Button>
               </Link>
-              <SleepChart sleepData={sleepData} />
-              <SleepStats sleepData={sleepData} />
             </Stack>
           )}
         </Box>
