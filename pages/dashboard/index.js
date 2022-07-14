@@ -6,47 +6,30 @@ import Button from "@mui/material/Button";
 import Link from "@mui/material/Link";
 import Breadcrumbs from "@mui/material/Breadcrumbs";
 import Typography from "@mui/material/Typography";
-import { collection, query, where, orderBy, getDocs } from "firebase/firestore";
-import { db } from "../../config/firebase.config";
 import { useEffect, useState } from "react";
+import { useAuth } from "../../src/context/AuthContext";
+import { fetchSleepData } from "../../src/utils/useSleepData";
 import { toast } from "react-toastify";
 
 import SleepChart from "../../src/components/SleepChart";
 import SleepStats from "../../src/components/SleepStats";
-import { useAuth } from "../../src/context/AuthContext";
 
 function DashboardPage() {
-  const { user } = useAuth();
   const [sleepData, setSleepData] = useState(null);
   const [loading, setLoading] = useState(true);
 
+  const { user } = useAuth();
+
   useEffect(() => {
-    const fetchSleepData = async () => {
-      const sleepDataCopy = [];
-      const q = query(
-        collection(db, "sleep"),
-        where("user", "==", user.uid),
-        orderBy("sleepTime")
-      );
-      const querySnapshot = await getDocs(q);
-      querySnapshot.forEach((doc) => {
-        sleepDataCopy.push(doc.data());
-        // console.log(doc.id, " => ", doc.data());
+    fetchSleepData(user)
+      .then((data) => {
+        setSleepData(data);
+        setLoading(false);
+      })
+      .catch((error) => {
+        toast.error(error);
       });
-      sleepDataCopy.forEach((sleep) => {
-        sleep.sleepTime = sleep.sleepTime.toDate();
-        sleep.wakeUpTime = sleep.wakeUpTime.toDate();
-      });
-      setSleepData(sleepDataCopy);
-      setLoading(false);
-      console.log(sleepDataCopy);
-    };
-    try {
-      fetchSleepData();
-    } catch (error) {
-      toast.error(error);
-    }
-  }, []);
+  }, [user]);
 
   return (
     <>

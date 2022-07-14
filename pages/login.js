@@ -1,4 +1,3 @@
-import { useState } from "react";
 import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 import CssBaseline from "@mui/material/CssBaseline";
@@ -15,10 +14,7 @@ import { useRouter } from "next/router";
 import { toast } from "react-toastify";
 
 function LoginPage() {
-  const { user, login, loginWithGoogle } = useAuth();
-
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const { login } = useAuth();
 
   const router = useRouter();
 
@@ -81,10 +77,7 @@ function LoginPage() {
               id="email"
               label="Email Address"
               name="email"
-              value={email}
-              onChange={(newEmail) => {
-                setEmail(newEmail);
-              }}
+              type="email"
               autoComplete="email"
               autoFocus
             />
@@ -93,20 +86,18 @@ function LoginPage() {
               required
               fullWidth
               name="password"
-              value={password}
               label="Password"
               type="password"
               id="password"
-              onChange={(newPassword) => {
-                setPassword(newPassword);
-              }}
               autoComplete="current-password"
             />
             <Button
               type="submit"
               fullWidth
               variant="contained"
-              disabled={(!email || !password) && true}
+              // disabled={
+              //   (!password.currentTarget || !email.currentTarget) && true
+              // }
               sx={{ mt: 3, mb: 2 }}
             >
               Sign In
