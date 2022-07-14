@@ -7,7 +7,7 @@ import { ThemeProvider } from "@mui/material/styles";
 import CssBaseline from "@mui/material/CssBaseline";
 import theme from "../src/theme";
 import { AuthContextProvider } from "../src/context/AuthContext";
-import ProtectedRoute from "../src/components/ProtectedRoute";
+import ProtectedRoutes from "../src/context/ProtectedRoutes";
 import { useRouter } from "next/router";
 import Navbar from "../src/layout/Navbar";
 import { ToastContainer } from "react-toastify";
@@ -40,9 +40,9 @@ export default function MyApp(props) {
             {noAuthRequired.includes(router.pathname) ? (
               <Component {...pageProps} />
             ) : (
-              <ProtectedRoute>
+              <ProtectedRoutes>
                 <Component {...pageProps} />
-              </ProtectedRoute>
+              </ProtectedRoutes>
             )}
           </LocalizationProvider>
         </AuthContextProvider>
