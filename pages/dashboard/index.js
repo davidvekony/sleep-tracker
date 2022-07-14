@@ -7,16 +7,16 @@ import Link from "@mui/material/Link";
 import Breadcrumbs from "@mui/material/Breadcrumbs";
 import Typography from "@mui/material/Typography";
 import { useEffect, useState } from "react";
-import { useAuth } from "../../src/context/AuthContext";
-import { fetchSleepData } from "../../src/utils/useSleepData";
 import { toast } from "react-toastify";
 
-import DayToggle from "../../src/components/DayToggle";
-import SleepChart from "../../src/components/SleepChart";
+import { useAuth } from "../../src/context/AuthContext";
+import { fetchSleepData, filterSleepData } from "../../src/utils/useSleepData";
+import SleepChart from "../../src/components/SleepChart/SleepChart";
 import SleepStats from "../../src/components/SleepStats";
 
 function DashboardPage() {
   const [sleepData, setSleepData] = useState(null);
+  const [filteredSleepData, setFilteredSleepData] = useState(null);
   const [loading, setLoading] = useState(true);
 
   const { user } = useAuth();
@@ -25,12 +25,18 @@ function DashboardPage() {
     fetchSleepData(user)
       .then((data) => {
         setSleepData(data);
+        setFilteredSleepData(filterSleepData(sleepData, 7));
         setLoading(false);
       })
       .catch((error) => {
+        setLoading(false);
         toast.error(error);
       });
-  }, [user]);
+  }, []);
+
+  const changeFilter = (daysBack) => {
+    setFilteredSleepData(filterSleepData(sleepData, daysBack));
+  };
 
   return (
     <>
@@ -64,7 +70,10 @@ function DashboardPage() {
             <CircularProgress />
           ) : (
             <Stack spacing={3} sx={{ width: "100%", alignItems: "center" }}>
-              <SleepChart sleepData={sleepData} />
+              <SleepChart
+                sleepData={filteredSleepData}
+                changeFilter={changeFilter}
+              />
               <SleepStats sleepData={sleepData} />
               <Link href="/dashboard/new">
                 <Button variant="contained">Log sleep</Button>

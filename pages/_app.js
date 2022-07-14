@@ -9,7 +9,7 @@ import theme from "../src/theme";
 import { AuthContextProvider } from "../src/context/AuthContext";
 import ProtectedRoute from "../src/components/ProtectedRoute";
 import { useRouter } from "next/router";
-import Navbar from "../src/components/Navbar";
+import Navbar from "../src/layout/Navbar";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { LocalizationProvider } from "@mui/x-date-pickers";

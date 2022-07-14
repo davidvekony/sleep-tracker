@@ -10,8 +10,9 @@ import {
 } from "chart.js";
 import { Line } from "react-chartjs-2";
 import Typography from "@mui/material/Typography";
-import DayToggle from "./DayToggle";
 import Box from "@mui/material/Box";
+
+import DayToggle from "./DayToggle";
 
 export const options = {
   responsive: true,
@@ -55,7 +56,7 @@ ChartJS.register(
   Legend
 );
 
-const Chart = ({ sleepData }) => {
+const Chart = ({ sleepData, changeFilter }) => {
   if (!sleepData || sleepData.length <= 0) {
     return (
       <Typography variant="h6" gutterBottom component="div">
@@ -100,7 +101,7 @@ const Chart = ({ sleepData }) => {
           alignItems: "flex-start",
         }}
       >
-        <DayToggle />
+        <DayToggle changeFilter={changeFilter} />
       </Box>
       <Line options={options} data={data} />
     </>

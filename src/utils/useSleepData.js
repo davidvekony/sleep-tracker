@@ -1,5 +1,12 @@
 import { db } from "../../config/firebase.config";
-import { getDocs, query, collection, where, orderBy } from "firebase/firestore";
+import {
+  getDocs,
+  addDoc,
+  query,
+  collection,
+  where,
+  orderBy,
+} from "firebase/firestore";
 
 export const fetchSleepData = async (user) => {
   const data = [];
@@ -29,4 +36,15 @@ export const filterSleepData = (sleepData, daysBack) => {
     }
   });
   return data;
+};
+
+export const addSleepData = async (sleepTime, wakeUpTime, user) => {
+  const docRef = await addDoc(collection(db, "sleep"), {
+    sleepTime: Timestamp.fromDate(sleepTime),
+    wakeUpTime: Timestamp.fromDate(wakeUpTime),
+    sleepDuration: Math.abs(wakeUpTime - sleepTime) / 36e5,
+    user: user.uid,
+    timestamp: Timestamp.fromDate(new Date()),
+  });
+  return docRef;
 };

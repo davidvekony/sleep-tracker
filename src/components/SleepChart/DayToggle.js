@@ -2,25 +2,26 @@ import { useState } from "react";
 import ToggleButton from "@mui/material/ToggleButton";
 import ToggleButtonGroup from "@mui/material/ToggleButtonGroup";
 
-function DayToggle() {
+function DayToggle({ changeFilter }) {
   const [daysBack, setDaysBack] = useState(7);
 
-  const handleAlignment = (event, newAlignment) => {
-    setDaysBack(newAlignment);
+  const handleFilter = (event, newFilter) => {
+    setDaysBack(newFilter);
+    changeFilter(newFilter);
   };
 
   return (
     <ToggleButtonGroup
       value={daysBack}
       exclusive
-      onChange={handleAlignment}
+      onChange={handleFilter}
       aria-label="number of days to show"
     >
-      <ToggleButton value={7} aria-label="7" selected>
-        7
+      <ToggleButton value={7} aria-label="7">
+        7 days
       </ToggleButton>
       <ToggleButton value={30} aria-label="30">
-        30
+        30 days
       </ToggleButton>
     </ToggleButtonGroup>
   );

@@ -15,6 +15,7 @@ import { collection, addDoc, Timestamp } from "firebase/firestore";
 
 import { db } from "../../config/firebase.config";
 import { useAuth } from "../../src/context/AuthContext";
+import { addSleepData } from "../../src/utils/useSleepData";
 
 function LogSleepPage() {
   const { user } = useAuth();
@@ -27,21 +28,17 @@ function LogSleepPage() {
   const handleSubmit = async (event) => {
     event.preventDefault();
     setLoading(true);
-    try {
-      const docRef = await addDoc(collection(db, "sleep"), {
-        // date: date.toISOString().slice(0, 10),
-        sleepTime: Timestamp.fromDate(sleepTime),
-        wakeUpTime: Timestamp.fromDate(wakeUpTime),
-        sleepDuration: Math.abs(wakeUpTime - sleepTime) / 36e5,
-        user: user.uid,
-        timestamp: Timestamp.fromDate(new Date()),
+
+    addSleepData(sleepTime, wakeUpTime, user)
+      .then((docRef) => {
+        setLoading(false);
+        console.log("Document written with ID: ", docRef.id);
+        router.push("/dashboard");
+      })
+      .catch((error) => {
+        toast.error(error);
+        setLoading(false);
       });
-      setLoading(false);
-      console.log("Document written with ID: ", docRef.id);
-      router.push("/dashboard");
-    } catch (error) {
-      toast.error(error);
-    }
   };
 
   return (
