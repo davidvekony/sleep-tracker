@@ -56,8 +56,8 @@ ChartJS.register(
   Legend
 );
 
-const Chart = ({ sleepData, changeFilter }) => {
-  if (!sleepData || sleepData.length <= 0) {
+const Chart = ({ filteredSleepData, changeFilter }) => {
+  if (!filteredSleepData || filteredSleepData.length <= 0) {
     return (
       <Typography variant="h6" gutterBottom component="div">
         There is no data to display.
@@ -66,7 +66,7 @@ const Chart = ({ sleepData, changeFilter }) => {
   }
 
   const labels = [
-    ...sleepData.map((sleep) => {
+    ...filteredSleepData.map((sleep) => {
       const date = sleep.sleepTime;
       const month = date.getMonth() + 1;
       const day = date.getDate();
@@ -75,7 +75,7 @@ const Chart = ({ sleepData, changeFilter }) => {
   ];
 
   const sleepDurationData = [
-    ...sleepData.map((sleep) => {
+    ...filteredSleepData.map((sleep) => {
       return sleep.sleepDuration;
     }),
   ];

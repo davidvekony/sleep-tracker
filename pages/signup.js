@@ -9,12 +9,14 @@ import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import Breadcrumbs from "@mui/material/Breadcrumbs";
+import IconButton from "@mui/material/IconButton";
+import GoogleIcon from "@mui/icons-material/Google";
 import { useAuth } from "../src/context/AuthContext";
 import { toast } from "react-toastify";
 import { useRouter } from "next/router";
 
 function SignupPage() {
-  const { signup } = useAuth();
+  const { signup, signInWithGoogle } = useAuth();
   const router = useRouter();
 
   const handleSubmit = async (event) => {
@@ -112,6 +114,26 @@ function SignupPage() {
                   autoComplete="new-password"
                 />
               </Grid>
+            </Grid>
+            <Grid
+              container
+              flexDirection="column"
+              justifyContent="center"
+              alignItems="center"
+            >
+              <Typography variant="body2" sx={{ mt: 2 }}>
+                Or Sign Up via:
+              </Typography>
+              <IconButton
+                color="secondary"
+                sx={{ mt: 2 }}
+                onClick={() => {
+                  signInWithGoogle();
+                  router.push("/dashboard");
+                }}
+              >
+                <GoogleIcon fontSize="large" />
+              </IconButton>
             </Grid>
             <Button
               type="submit"

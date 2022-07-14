@@ -32,7 +32,7 @@ function DashboardPage() {
         setLoading(false);
         toast.error(error);
       });
-  }, []);
+  }, [user]);
 
   const changeFilter = (daysBack) => {
     setFilteredSleepData(filterSleepData(sleepData, daysBack));
