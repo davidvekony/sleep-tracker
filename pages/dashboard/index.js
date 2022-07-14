@@ -25,6 +25,8 @@ function DashboardPage() {
     fetchSleepData(user)
       .then((data) => {
         setSleepData(data);
+      })
+      .then(() => {
         setFilteredSleepData(filterSleepData(sleepData, 7));
         setLoading(false);
       })
@@ -32,7 +34,7 @@ function DashboardPage() {
         setLoading(false);
         toast.error(error);
       });
-  }, [user]);
+  }, []);
 
   const changeFilter = (daysBack) => {
     setFilteredSleepData(filterSleepData(sleepData, daysBack));
@@ -71,7 +73,7 @@ function DashboardPage() {
           ) : (
             <Stack spacing={3} sx={{ width: "100%", alignItems: "center" }}>
               <SleepChart
-                sleepData={filteredSleepData}
+                filteredSleepData={filteredSleepData}
                 changeFilter={changeFilter}
               />
               <SleepStats sleepData={sleepData} />
