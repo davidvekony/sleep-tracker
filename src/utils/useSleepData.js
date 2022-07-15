@@ -9,6 +9,7 @@ import {
   deleteDoc,
   updateDoc,
   doc,
+  getDoc,
 } from "firebase/firestore";
 
 const fetchSleepData = async (user) => {
@@ -43,6 +44,20 @@ const filterSleepData = (data, daysBack) => {
   return filteredData;
 };
 
+const fetchSingleLog = async (sleepId) => {
+  const docRef = doc(db, "sleep", sleepId);
+  const docSnap = await getDoc(docRef);
+
+  if (docSnap.exists) {
+    const data = docSnap.data();
+    data.sleepTime = data.sleepTime.toDate();
+    data.wakeUpTime = data.wakeUpTime.toDate();
+    return data;
+  } else {
+    return null;
+  }
+};
+
 const addSleepData = async (sleepTime, wakeUpTime, user) => {
   await addDoc(collection(db, "sleep"), {
     sleepTime: Timestamp.fromDate(sleepTime),
@@ -70,6 +85,7 @@ const updateSleepData = async (sleepId, sleepTime, wakeUpTime) => {
 export {
   fetchSleepData,
   filterSleepData,
+  fetchSingleLog,
   addSleepData,
   deleteSleepData,
   updateSleepData,
