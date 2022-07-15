@@ -10,7 +10,11 @@ import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 
 import { useAuth } from "../../src/context/AuthContext";
-import { fetchSleepData, filterSleepData } from "../../src/utils/useSleepData";
+import {
+  fetchSleepData,
+  filterSleepData,
+  deleteSleepData,
+} from "../../src/utils/useSleepData";
 import SleepChart from "../../src/components/SleepChart/SleepChart";
 import SleepStats from "../../src/components/SleepStats";
 
@@ -25,19 +29,28 @@ function DashboardPage() {
     fetchSleepData(user)
       .then((data) => {
         setSleepData(data);
-      })
-      .then(() => {
-        setFilteredSleepData(filterSleepData(sleepData, 7));
+        setFilteredSleepData(filterSleepData(data, 7));
         setLoading(false);
+        console.log(sleepData);
       })
       .catch((error) => {
         setLoading(false);
         toast.error(error);
       });
-  }, []);
+  }, [user]);
 
   const changeFilter = (daysBack) => {
     setFilteredSleepData(filterSleepData(sleepData, daysBack));
+  };
+
+  const deleteSleep = async (sleepId) => {
+    setLoading(true);
+    await deleteSleepData(sleepId);
+    const newSleepData = sleepData.filter((sleep) => sleep.id !== sleepId);
+    setSleepData(newSleepData);
+    setFilteredSleepData(filterSleepData(newSleepData, 7));
+    setLoading(false);
+    toast.success("Sleep log deleted");
   };
 
   return (
@@ -76,7 +89,7 @@ function DashboardPage() {
                 filteredSleepData={filteredSleepData}
                 changeFilter={changeFilter}
               />
-              <SleepStats sleepData={sleepData} />
+              <SleepStats sleepData={sleepData} deleteSleep={deleteSleep} />
               <Link href="/dashboard/new">
                 <Button variant="contained">Log sleep</Button>
               </Link>

@@ -8,6 +8,7 @@ import {
   orderBy,
   deleteDoc,
   updateDoc,
+  doc,
 } from "firebase/firestore";
 
 const fetchSleepData = async (user) => {
@@ -19,7 +20,9 @@ const fetchSleepData = async (user) => {
   );
   const querySnapshot = await getDocs(q);
   querySnapshot.forEach((doc) => {
-    data.push(doc.data());
+    const newDoc = doc.data();
+    newDoc.id = doc.id;
+    data.push(newDoc);
   });
   data.forEach((sleep) => {
     sleep.sleepTime = sleep.sleepTime.toDate();
@@ -28,16 +31,16 @@ const fetchSleepData = async (user) => {
   return data;
 };
 
-const filterSleepData = (sleepData, daysBack) => {
-  const data = [];
+const filterSleepData = (data, daysBack) => {
+  const filteredData = [];
   const today = new Date();
   const startDate = new Date(today.getTime() - daysBack * 24 * 60 * 60 * 1000);
-  sleepData.forEach((sleep) => {
+  data.forEach((sleep) => {
     if (sleep.sleepTime >= startDate) {
-      data.push(sleep);
+      filteredData.push(sleep);
     }
   });
-  return data;
+  return filteredData;
 };
 
 const addSleepData = async (sleepTime, wakeUpTime, user) => {

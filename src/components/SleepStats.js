@@ -5,9 +5,10 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
-import { v4 as uuidv4 } from "uuid";
+import IconButton from "@mui/material/IconButton";
+import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 
-function SleepStats({ sleepData }) {
+function SleepStats({ sleepData, deleteSleep }) {
   if (!sleepData || sleepData.length <= 0) {
     return <></>;
   }
@@ -21,12 +22,13 @@ function SleepStats({ sleepData }) {
             <TableCell align="right">Sleep time</TableCell>
             <TableCell align="right">Wake-up time</TableCell>
             <TableCell align="right">Sleep duration</TableCell>
+            <TableCell align="right" />
           </TableRow>
         </TableHead>
         <TableBody>
           {sleepData.map((sleep) => (
             <TableRow
-              key={uuidv4()}
+              key={sleep.id}
               sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
             >
               <TableCell component="th" scope="row">
@@ -39,6 +41,11 @@ function SleepStats({ sleepData }) {
                 {sleep.wakeUpTime.toString().slice(16, 21)}
               </TableCell>
               <TableCell align="right">{sleep.sleepDuration}</TableCell>
+              <TableCell align="right">
+                <IconButton onClick={() => deleteSleep(sleep.id)}>
+                  <DeleteForeverIcon />
+                </IconButton>
+              </TableCell>
             </TableRow>
           ))}
         </TableBody>
