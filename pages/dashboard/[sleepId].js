@@ -12,12 +12,14 @@ import Breadcrumbs from "@mui/material/Breadcrumbs";
 import Typography from "@mui/material/Typography";
 import { DateTimePicker } from "@mui/x-date-pickers/DateTimePicker";
 
+import SleepRating from "../../src/components/SleepRating";
 import { fetchSingleLog, updateSleepData } from "../../src/utils/useSleepData";
 
 function UpdateSleepPage() {
   const [loading, setLoading] = useState(true);
   const [sleepTime, setSleepTime] = useState(null);
   const [wakeUpTime, setWakeUpTime] = useState(null);
+  const [rating, setRating] = useState(null);
 
   const router = useRouter();
   const { sleepId } = router.query;
@@ -27,6 +29,7 @@ function UpdateSleepPage() {
       .then((data) => {
         setSleepTime(data.sleepTime);
         setWakeUpTime(data.wakeUpTime);
+        setRating(data.rating);
         setLoading(false);
       })
       .catch((error) => {
@@ -35,12 +38,15 @@ function UpdateSleepPage() {
       });
   }, []);
 
+  const handleRatingChange = (value) => {
+    setRating(value);
+  };
+
   const handleSubmit = async (event) => {
     event.preventDefault();
     setLoading(true);
-    console.log(sleepId, sleepTime, wakeUpTime);
 
-    updateSleepData(sleepId, sleepTime, wakeUpTime)
+    updateSleepData(sleepId, sleepTime, wakeUpTime, rating)
       .then((docRef) => {
         setLoading(false);
         router.push("/dashboard");
@@ -104,6 +110,20 @@ function UpdateSleepPage() {
               onChange={(newWakeUpTime) => setWakeUpTime(newWakeUpTime)}
               renderInput={(props) => <TextField {...props} />}
             />
+            <Box
+              sx={{
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "space-between",
+              }}
+            >
+              <Typography variant="h6">Rate your sleep:</Typography>
+              <SleepRating
+                value={rating}
+                handleRatingChange={handleRatingChange}
+                disabled={false}
+              />
+            </Box>
             {loading ? (
               <LoadingButton loading variant="outlined">
                 Submitting...

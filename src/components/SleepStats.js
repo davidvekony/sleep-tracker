@@ -10,6 +10,8 @@ import EditIcon from "@mui/icons-material/Edit";
 import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 import { useRouter } from "next/router";
 
+import SleepRating from "./SleepRating";
+
 function SleepStats({ sleepData, deleteSleep }) {
   const router = useRouter();
 
@@ -26,6 +28,7 @@ function SleepStats({ sleepData, deleteSleep }) {
             <TableCell align="right">Sleep time</TableCell>
             <TableCell align="right">Wake-up time</TableCell>
             <TableCell align="right">Sleep duration</TableCell>
+            <TableCell align="right">Sleep Quality</TableCell>
             <TableCell align="right" />
           </TableRow>
         </TableHead>
@@ -45,6 +48,9 @@ function SleepStats({ sleepData, deleteSleep }) {
                 {sleep.wakeUpTime.toString().slice(16, 21)}
               </TableCell>
               <TableCell align="right">{sleep.sleepDuration}</TableCell>
+              <TableCell align="right">
+                <SleepRating value={sleep.rating} readOnly={true} />
+              </TableCell>
               <TableCell align="right">
                 <IconButton
                   onClick={() => router.push(`/dashboard/${sleep.id}`)}
