@@ -16,8 +16,8 @@ function Navbar() {
     <Box sx={{ flexGrow: 1 }}>
       <AppBar position="static">
         <Toolbar>
-          <IconButton href="/">
-            <Hotel sx={{ mr: 2 }} />
+          <IconButton sx={{ mr: 2 }} href="/">
+            <Hotel />
           </IconButton>
           <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
             Sleep Tracker
