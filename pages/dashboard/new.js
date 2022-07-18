@@ -95,6 +95,7 @@ function LogSleepPage() {
               value={wakeUpTime}
               ampm={false}
               disableFuture={true}
+              minDateTime={sleepTime}
               onChange={(newWakeUpTime) => setWakeUpTime(newWakeUpTime)}
               renderInput={(props) => <TextField {...props} />}
             />

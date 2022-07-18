@@ -7,6 +7,7 @@ import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import { Hotel, Addchart, Bed, Search } from "@mui/icons-material";
 import Link from "@mui/material/Link";
+
 import { useAuth } from "../src/context/AuthContext";
 
 export default function HomePage() {

@@ -11,6 +11,7 @@ import Container from "@mui/material/Container";
 import Breadcrumbs from "@mui/material/Breadcrumbs";
 import IconButton from "@mui/material/IconButton";
 import GoogleIcon from "@mui/icons-material/Google";
+
 import { useAuth } from "../src/context/AuthContext";
 
 function SignupPage() {
