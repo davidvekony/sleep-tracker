@@ -13,11 +13,9 @@ import IconButton from "@mui/material/IconButton";
 import GoogleIcon from "@mui/icons-material/Google";
 import { useAuth } from "../src/context/AuthContext";
 import { toast } from "react-toastify";
-import { useRouter } from "next/router";
 
 function SignupPage() {
   const { signup, signInWithGoogle } = useAuth();
-  const router = useRouter();
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -25,7 +23,6 @@ function SignupPage() {
 
     try {
       await signup(data.get("email"), data.get("password"));
-      router.push("/dashboard");
     } catch (error) {
       toast.error(error);
     }
@@ -129,7 +126,6 @@ function SignupPage() {
                 sx={{ mt: 2 }}
                 onClick={() => {
                   signInWithGoogle();
-                  router.push("/dashboard");
                 }}
               >
                 <GoogleIcon fontSize="large" />

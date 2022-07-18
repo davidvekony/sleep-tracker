@@ -12,24 +12,16 @@ import Breadcrumbs from "@mui/material/Breadcrumbs";
 import IconButton from "@mui/material/IconButton";
 import GoogleIcon from "@mui/icons-material/Google";
 import { useAuth } from "../src/context/AuthContext";
-import { useRouter } from "next/router";
 import { toast } from "react-toastify";
 
 function LoginPage() {
   const { login, signInWithGoogle } = useAuth();
 
-  const router = useRouter();
-
   const handleSubmit = async (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
 
-    try {
-      await login(data.get("email"), data.get("password"));
-      router.push("/dashboard");
-    } catch (error) {
-      toast.error(error);
-    }
+    await login(data.get("email"), data.get("password"));
   };
 
   return (
@@ -107,7 +99,6 @@ function LoginPage() {
                 sx={{ mt: 2 }}
                 onClick={() => {
                   signInWithGoogle();
-                  router.push("/dashboard");
                 }}
               >
                 <GoogleIcon fontSize="large" />
@@ -117,9 +108,6 @@ function LoginPage() {
               type="submit"
               fullWidth
               variant="contained"
-              // disabled={
-              //   (!password.currentTarget || !email.currentTarget) && true
-              // }
               sx={{ mt: 3, mb: 2 }}
             >
               Sign In

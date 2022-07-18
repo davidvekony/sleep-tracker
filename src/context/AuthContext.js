@@ -8,6 +8,8 @@ import {
   signOut,
 } from "firebase/auth";
 import { auth } from "../../config/firebase.config";
+import { useRouter } from "next/router";
+const { toast } = require("react-toastify");
 
 const AuthContext = createContext();
 
@@ -18,6 +20,8 @@ export const AuthContextProvider = ({ children }) => {
   const [loading, setLoading] = useState(true);
 
   const provider = new GoogleAuthProvider();
+
+  const router = useRouter();
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
@@ -36,31 +40,63 @@ export const AuthContextProvider = ({ children }) => {
   }, []);
 
   const signup = (email, password) => {
-    return createUserWithEmailAndPassword(auth, email, password);
+    return createUserWithEmailAndPassword(auth, email, password)
+      .then((userCredential) => {
+        const user = userCredential.user;
+      })
+      .then(() => {
+        router.push("/dashboard");
+      })
+      .catch((error) => {
+        const errorCode = error.code;
+        const errorMessage = error.message;
+        toast.error(errorMessage);
+      });
   };
 
   const login = (email, password) => {
-    return signInWithEmailAndPassword(auth, email, password);
+    return signInWithEmailAndPassword(auth, email, password)
+      .then((userCredential) => {
+        const user = userCredential.user;
+      })
+      .then(() => {
+        router.push("/dashboard");
+      })
+      .catch((error) => {
+        const errorCode = error.code;
+        const errorMessage = error.message;
+        toast.error(errorMessage);
+      });
   };
 
   const signInWithGoogle = () => {
-    return signInWithPopup(auth, provider);
-    // .then((result) => {
-    //   const credential = GoogleAuthProvider.credentialFromResult(result);
-    //   const token = credential.accessToken;
-    //   const user = result.user;
-    // })
-    // .catch((error) => {
-    //   const errorCode = error.code;
-    //   const errorMessage = error.message;
-    //   const email = error.customData.email;
-    //   const credential = GoogleAuthProvider.credentialFromError(error);
-    // });
+    return signInWithPopup(auth, provider)
+      .then((result) => {
+        const credential = GoogleAuthProvider.credentialFromResult(result);
+        const token = credential.accessToken;
+        const user = result.user;
+      })
+      .then(() => {
+        router.push("/dashboard");
+      })
+      .catch((error) => {
+        const errorCode = error.code;
+        const errorMessage = error.message;
+        const email = error.customData.email;
+        const credential = GoogleAuthProvider.credentialFromError(error);
+        toast.error(errorMessage);
+      });
   };
 
   const logout = async () => {
     setUser(null);
-    await signOut(auth);
+    await signOut(auth)
+      .then(() => {
+        router.push("/");
+      })
+      .catch((error) => {
+        toast.error(error);
+      });
   };
 
   return (
