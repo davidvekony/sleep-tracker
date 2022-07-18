@@ -12,6 +12,7 @@ import Typography from "@mui/material/Typography";
 import { DateTimePicker } from "@mui/x-date-pickers/DateTimePicker";
 import { toast } from "react-toastify";
 
+import SleepRating from "../../src/components/SleepRating";
 import { useAuth } from "../../src/context/AuthContext";
 import { addSleepData } from "../../src/utils/useSleepData";
 
@@ -21,13 +22,18 @@ function LogSleepPage() {
 
   const [sleepTime, setSleepTime] = useState(null);
   const [wakeUpTime, setWakeUpTime] = useState(null);
+  const [rating, setRating] = useState(1);
   const [loading, setLoading] = useState(false);
+
+  const handleRatingChange = (value) => {
+    setRating(value);
+  };
 
   const handleSubmit = async (event) => {
     event.preventDefault();
     setLoading(true);
 
-    addSleepData(sleepTime, wakeUpTime, user)
+    addSleepData(sleepTime, wakeUpTime, rating, user)
       .then(() => {
         setLoading(false);
         router.push("/dashboard");
@@ -67,6 +73,7 @@ function LogSleepPage() {
             display: "flex",
             flexDirection: "column",
             alignItems: "center",
+            justifyContent: "center",
           }}
         >
           <Stack spacing={3}>
@@ -91,6 +98,20 @@ function LogSleepPage() {
               onChange={(newWakeUpTime) => setWakeUpTime(newWakeUpTime)}
               renderInput={(props) => <TextField {...props} />}
             />
+            <Box
+              sx={{
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "space-between",
+              }}
+            >
+              <Typography variant="h6">Rate your sleep:</Typography>
+              <SleepRating
+                value={rating}
+                handleRatingChange={handleRatingChange}
+                disabled={false}
+              />
+            </Box>
             {loading ? (
               <LoadingButton loading variant="outlined">
                 Submitting...
@@ -98,7 +119,7 @@ function LogSleepPage() {
             ) : (
               <Button
                 variant="contained"
-                disabled={(!sleepTime || !wakeUpTime) && true}
+                disabled={(!sleepTime || !wakeUpTime || !rating) && true}
                 onClick={handleSubmit}
               >
                 Submit

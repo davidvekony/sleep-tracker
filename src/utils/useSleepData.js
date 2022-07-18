@@ -59,11 +59,12 @@ const fetchSingleLog = async (sleepId) => {
   }
 };
 
-const addSleepData = async (sleepTime, wakeUpTime, user) => {
+const addSleepData = async (sleepTime, wakeUpTime, rating, user) => {
   await addDoc(collection(db, "sleep"), {
     sleepTime: Timestamp.fromDate(sleepTime),
     wakeUpTime: Timestamp.fromDate(wakeUpTime),
     sleepDuration: Math.abs(wakeUpTime - sleepTime) / 36e5,
+    rating,
     user: user.uid,
     timestamp: Timestamp.fromDate(new Date()),
   });
@@ -73,13 +74,14 @@ const deleteSleepData = async (sleepId) => {
   await deleteDoc(doc(db, "sleep", sleepId));
 };
 
-const updateSleepData = async (sleepId, sleepTime, wakeUpTime) => {
+const updateSleepData = async (sleepId, sleepTime, wakeUpTime, rating) => {
   const docRef = doc(db, "sleep", sleepId);
 
   await updateDoc(docRef, {
     sleepTime: Timestamp.fromDate(sleepTime),
     wakeUpTime: Timestamp.fromDate(wakeUpTime),
     sleepDuration: Math.abs(wakeUpTime - sleepTime) / 36e5,
+    rating,
   });
 };
 
