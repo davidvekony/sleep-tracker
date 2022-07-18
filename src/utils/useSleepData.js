@@ -10,6 +10,7 @@ import {
   updateDoc,
   doc,
   getDoc,
+  Timestamp,
 } from "firebase/firestore";
 
 const fetchSleepData = async (user) => {
@@ -73,7 +74,7 @@ const deleteSleepData = async (sleepId) => {
 };
 
 const updateSleepData = async (sleepId, sleepTime, wakeUpTime) => {
-  const docRef = doc(db, "cities", sleepId);
+  const docRef = doc(db, "sleep", sleepId);
 
   await updateDoc(docRef, {
     sleepTime: Timestamp.fromDate(sleepTime),

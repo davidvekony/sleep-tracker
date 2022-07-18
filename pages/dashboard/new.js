@@ -28,7 +28,7 @@ function LogSleepPage() {
     setLoading(true);
 
     addSleepData(sleepTime, wakeUpTime, user)
-      .then((docRef) => {
+      .then(() => {
         setLoading(false);
         router.push("/dashboard");
       })
@@ -92,7 +92,9 @@ function LogSleepPage() {
               renderInput={(props) => <TextField {...props} />}
             />
             {loading ? (
-              <LoadingButton loading variant="outlined" />
+              <LoadingButton loading variant="outlined">
+                Submitting...
+              </LoadingButton>
             ) : (
               <Button
                 variant="contained"

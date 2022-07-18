@@ -27,6 +27,7 @@ function UpdateSleepPage() {
       .then((data) => {
         setSleepTime(data.sleepTime);
         setWakeUpTime(data.wakeUpTime);
+        setLoading(false);
       })
       .catch((error) => {
         setLoading(false);
@@ -37,9 +38,10 @@ function UpdateSleepPage() {
   const handleSubmit = async (event) => {
     event.preventDefault();
     setLoading(true);
+    console.log(sleepId, sleepTime, wakeUpTime);
 
     updateSleepData(sleepId, sleepTime, wakeUpTime)
-      .then(() => {
+      .then((docRef) => {
         setLoading(false);
         router.push("/dashboard");
       })
@@ -103,7 +105,9 @@ function UpdateSleepPage() {
               renderInput={(props) => <TextField {...props} />}
             />
             {loading ? (
-              <LoadingButton loading variant="outlined" />
+              <LoadingButton loading variant="outlined">
+                Submitting...
+              </LoadingButton>
             ) : (
               <Button
                 variant="contained"
