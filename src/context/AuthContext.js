@@ -9,7 +9,7 @@ import {
 } from "firebase/auth";
 import { auth } from "../../config/firebase.config";
 import { useRouter } from "next/router";
-const { toast } = require("react-toastify");
+import { toast } from "react-toastify";
 
 const AuthContext = createContext();
 

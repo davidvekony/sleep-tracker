@@ -12,7 +12,6 @@ import Breadcrumbs from "@mui/material/Breadcrumbs";
 import IconButton from "@mui/material/IconButton";
 import GoogleIcon from "@mui/icons-material/Google";
 import { useAuth } from "../src/context/AuthContext";
-import { toast } from "react-toastify";
 
 function SignupPage() {
   const { signup, signInWithGoogle } = useAuth();
@@ -21,11 +20,7 @@ function SignupPage() {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
 
-    try {
-      await signup(data.get("email"), data.get("password"));
-    } catch (error) {
-      toast.error(error);
-    }
+    await signup(data.get("email"), data.get("password"));
   };
 
   return (
