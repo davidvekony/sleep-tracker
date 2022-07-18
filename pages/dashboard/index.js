@@ -90,9 +90,9 @@ function DashboardPage() {
                 changeFilter={changeFilter}
               />
               <SleepStats sleepData={sleepData} deleteSleep={deleteSleep} />
-              <Link href="/dashboard/new">
-                <Button variant="contained">Log sleep</Button>
-              </Link>
+              <Button variant="contained" href="/dashboard/new">
+                Log sleep
+              </Button>
             </Stack>
           )}
         </Box>
