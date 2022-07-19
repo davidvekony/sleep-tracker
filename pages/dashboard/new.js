@@ -84,6 +84,7 @@ function LogSleepPage() {
               value={sleepTime}
               ampm={false}
               disableFuture={true}
+              maxDateTime={wakeUpTime}
               onChange={(newSleepTime) => {
                 setSleepTime(newSleepTime);
               }}
