@@ -1,5 +1,7 @@
 This is a [Next.js](https://nextjs.org/) project for practice.
 
+The app is deployed and available here: <https://sleep-tracker-five.vercel.app/>.
+
 # Requirements
 - Landing page
 - Signup + Login pages
@@ -22,8 +24,8 @@ This is a [Next.js](https://nextjs.org/) project for practice.
 - Next.js
 - Material UI for UI components
 - Jest for unit testing
-- `react-vis` or `chart.js` for graph
-- Firebase Auth for Google sign-up/login
+- `chart.js` for graph
+- Firebase Auth for sign-up/login (email & password, Google)
 
 # Wireframes
 ![Wireframes](/public/readme/wireframes_v1.png)

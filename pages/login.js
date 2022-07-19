@@ -92,7 +92,7 @@ function LoginPage() {
               alignItems="center"
             >
               <Typography variant="body2" sx={{ mt: 2 }}>
-                Or Sign In via:
+                Or Sign In using:
               </Typography>
               <IconButton
                 color="secondary"

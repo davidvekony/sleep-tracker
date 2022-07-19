@@ -115,7 +115,7 @@ function SignupPage() {
               alignItems="center"
             >
               <Typography variant="body2" sx={{ mt: 2 }}>
-                Or Sign Up via:
+                Or Sign Up using:
               </Typography>
               <IconButton
                 color="secondary"
